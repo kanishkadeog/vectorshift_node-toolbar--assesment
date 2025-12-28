@@ -36,31 +36,18 @@ class Pipeline(BaseModel):
 def read_root():
     return {"Ping": "Pong"}
 
-
 @app.post("/pipelines/parse")
-@app.get("/pipelines/parse")
-def parse_pipeline(
-    pipeline: Optional[str] = Form(None),
-    body: Optional[Pipeline] = Body(None)
-):
-    # Handle GET (form) or POST (JSON)
-    if pipeline:
-        data = json.loads(pipeline)
-        nodes = data["nodes"]
-        edges = data["edges"]
-    else:
-        nodes = body.nodes
-        edges = body.edges
+def parse_pipeline(pipeline: Pipeline):
+    nodes = pipeline.nodes
+    edges = pipeline.edges
 
     num_nodes = len(nodes)
     num_edges = len(edges)
 
-    # DAG check
+    # Build graph
     graph = {}
     for edge in edges:
-        src = edge["source"] if isinstance(edge, dict) else edge.source
-        tgt = edge["target"] if isinstance(edge, dict) else edge.target
-        graph.setdefault(src, []).append(tgt)
+        graph.setdefault(edge.source, []).append(edge.target)
 
     visited = set()
     rec_stack = set()
@@ -80,10 +67,9 @@ def parse_pipeline(
         return False
 
     is_dag = True
-    for n in nodes:
-        node_id = n["id"] if isinstance(n, dict) else n.id
-        if node_id not in visited:
-            if has_cycle(node_id):
+    for node in nodes:
+        if node.id not in visited:
+            if has_cycle(node.id):
                 is_dag = False
                 break
 
@@ -92,6 +78,65 @@ def parse_pipeline(
         "num_edges": num_edges,
         "is_dag": is_dag
     }
+
+
+# =============
+
+# @app.post("/pipelines/parse")
+# @app.get("/pipelines/parse")
+# def parse_pipeline(
+#     pipeline: Optional[str] = Form(None),
+#     body: Optional[Pipeline] = Body(None)
+# ):
+#     # Handle GET (form) or POST (JSON)
+#     if pipeline:
+#         data = json.loads(pipeline)
+#         nodes = data["nodes"]
+#         edges = data["edges"]
+#     else:
+#         nodes = body.nodes
+#         edges = body.edges
+
+#     num_nodes = len(nodes)
+#     num_edges = len(edges)
+
+#     # DAG check
+#     graph = {}
+#     for edge in edges:
+#         src = edge["source"] if isinstance(edge, dict) else edge.source
+#         tgt = edge["target"] if isinstance(edge, dict) else edge.target
+#         graph.setdefault(src, []).append(tgt)
+
+#     visited = set()
+#     rec_stack = set()
+
+#     def has_cycle(v):
+#         visited.add(v)
+#         rec_stack.add(v)
+
+#         for n in graph.get(v, []):
+#             if n not in visited:
+#                 if has_cycle(n):
+#                     return True
+#             elif n in rec_stack:
+#                 return True
+
+#         rec_stack.remove(v)
+#         return False
+
+#     is_dag = True
+#     for n in nodes:
+#         node_id = n["id"] if isinstance(n, dict) else n.id
+#         if node_id not in visited:
+#             if has_cycle(node_id):
+#                 is_dag = False
+#                 break
+
+#     return {
+#         "num_nodes": num_nodes,
+#         "num_edges": num_edges,
+#         "is_dag": is_dag
+#     }
 
 
 
