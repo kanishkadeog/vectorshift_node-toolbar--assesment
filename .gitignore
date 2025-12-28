@@ -1,0 +1,12 @@
+
+backend/venv
+# Python
+__pycache__/
+venv/
+.env
+
+# OS
+.DS_Store
+
+# Logs
+*.log
