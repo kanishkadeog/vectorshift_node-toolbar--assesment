@@ -1,10 +1,22 @@
 from fastapi import FastAPI, Body, Form
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
 import json
 
+
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://vectorshift-node-toolbar-assesment.vercel.app",
+        "http://localhost:3000"  # optional for local testing
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class Node(BaseModel):
     id: str
