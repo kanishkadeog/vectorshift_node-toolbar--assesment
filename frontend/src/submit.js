@@ -1,4 +1,4 @@
-
+// frontend/src/submit.js
 import { useStore } from './store';
 
 export const SubmitButton = () => {
@@ -37,49 +37,3 @@ export const SubmitButton = () => {
   );
 };
 
-
-
-//-----------------------------------------
-
-// import { useStore } from "./store";
-
-// export const SubmitButton = () => {
-//   const { nodes, edges } = useStore();
-
-//   const submit = async () => {
-//     const res = await fetch("http://127.0.0.1:8000/pipelines/parse", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ nodes, edges })
-//     });
-
-//     const data = await res.json();
-//     alert(
-//       `Nodes: ${data.num_nodes}
-// Edges: ${data.num_edges}
-// DAG: ${data.is_dag}`
-//     );
-//   };
-
-//   return (
-//     <div style={{ textAlign: "center" }}>
-//       <button onClick={submit}>Submit</button>
-//     </div>
-//   );
-// };
-
-
-
-
-//----------------------------------
-
-// // submit.js
-
-// export const SubmitButton = () => {
-
-//     return (
-//         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-//             <button type="submit">Submit</button>
-//         </div>
-//     );
-// }

@@ -1,3 +1,4 @@
+// frontend/src/nodes/BaseNode.js
 import { Handle, Position } from "reactflow";
 
 /**

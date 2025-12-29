@@ -1,4 +1,4 @@
-
+// frontend/src/nodes/textNode.js
 import { useState, useEffect } from 'react';
 import { Handle, Position } from 'reactflow';
 import { useStore } from "../store";
@@ -65,78 +65,3 @@ export const TextNode = ({ id, data }) => {
 };
 
 
-
-//------------------------------------------
-
-
-// import { BaseNode } from "./BaseNode";
-// import { useStore } from "../store";
-
-// /**
-//  * Extract {{variables}} from text
-//  */
-// const extractVars = (text) => {
-//   const regex = /\{\{\s*([a-zA-Z_$][\w$]*)\s*\}\}/g;
-//   return [...text.matchAll(regex)].map(m => m[1]);
-// };
-
-// export const TextNode = ({ id, data }) => {
-//   const update = useStore(s => s.updateNodeField);
-//   const text = data.text || "";
-
-//   const vars = extractVars(text);
-
-//   return (
-//     <BaseNode title="Text" inputs={vars} outputs={["output"]}>
-//       <textarea
-//         value={text}
-//         onChange={(e) => update(id, "text", e.target.value)}
-//         style={{
-//           width: "100%",
-//           minHeight: 40 + text.length,
-//           resize: "none"
-//         }}
-//       />
-//     </BaseNode>
-//   );
-// };
-
-
-
-//----------------------------------
-
-// // textNode.js
-
-// import { useState } from 'react';
-// import { Handle, Position } from 'reactflow';
-
-// export const TextNode = ({ id, data }) => {
-//   const [currText, setCurrText] = useState(data?.text || '{{input}}');
-
-//   const handleTextChange = (e) => {
-//     setCurrText(e.target.value);
-//   };
-
-//   return (
-//     <div style={{width: 200, height: 80, border: '1px solid black'}}>
-//       <div>
-//         <span>Text</span>
-//       </div>
-//       <div>
-//         <label>
-//           Text:
-//           <input 
-//             type="text" 
-//             value={currText} 
-//             onChange={handleTextChange} 
-//           />
-//         </label>
-//       </div>
-//       <Handle
-//         type="source"
-//         position={Position.Right}
-//         id={`${id}-output`}
-//       />
-//     </div>
-//   );
-// }
